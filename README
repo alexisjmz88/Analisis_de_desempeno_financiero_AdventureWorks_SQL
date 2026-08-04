@@ -1,43 +1,51 @@
 # Sales & Marketing ROI Analysis – Sprint 3
+Análisis de desempeño de ventas y retorno de inversión (ROI) de campañas de marketing por país, desarrollado en SQL (Sprint 9).
 
+📋 Descripción
 Este repositorio contiene el análisis realizado durante el Sprint 9, enfocado en el desempeño de ventas y el retorno de inversión (ROI) de las campañas de marketing por país.
+El objetivo fue tomar los datos de ventas, productos y campañas de marketing para calcular el beneficio bruto y el ROI por territorio, además de validar la integridad y calidad de los datos utilizados.
+Se utilizaron las siguientes tablas: campanas, productos, productos_categorias, ventas_2017, territorios, pais_ingreso_costo y pais_campanas, con información de ventas, catálogo de productos, categorías, territorios geográficos e inversión en campañas.
 
-El objetivo de este proyecto fue tomar los datos de ventas, productos y campañas de marketing para calcular el beneficio bruto y el ROI por territorio, además de validar la integridad y calidad de los datos utilizados.
+🛠 Tech stack
+SQL (PostgreSQL) — consultas, joins y agregaciones
+Funciones utilizadas: COALESCE, NULLIF, CAST, agregaciones (SUM), GROUP BY, LEFT JOIN
+📁 Estructura del repositorio
+sales-marketing-roi-analysis/
+├── README.md
+├── data/
+│   └── raw/                  # CSVs originales (ventas, productos, territorios, campañas)
+├── queries/
+    └── S9_Sales_Marketing_ROI.sql
 
-Se utilizaron las siguientes tablas: `campanas`, `productos`, `productos_categorias`, `ventas_2017`, `territorios`, `pais_ingreso_costo` y `pais_campanas`, las cuales incluyen información de ventas, catálogo de productos, categorías, territorios geográficos e inversión en campañas.
+📊 Diccionario de datos
+ventas_2017: Registro de pedidos: número de pedido, producto, cantidad y territorio
+productos: Catálogo de productos con precio y costo unitario
+productos_categorias:	Categorías y subcategorías de productos
+territorios:	País, continente y clave de territorio
+campanas:	Campañas de marketing y su costo
+pais_ingreso_costo:	Ingresos y costos agregados por país/territorio
+pais_campanas:	Costo de campañas agregado por país/territorio
 
-## ▶ Cómo ejecutar las queries
+▶ Cómo ejecutar el análisis
+Crea una base de datos PostgreSQL y carga los CSV de data/raw/ en las tablas correspondientes
+Abre queries/S9_Sales_Marketing_ROI.sql en tu cliente SQL preferido
+Ejecuta las consultas en el orden en que aparecen, ya que las secciones posteriores dependen de las tablas/vistas generadas en secciones previas (pais_ingreso_costo, pais_campanas)
 
-1. Abre el archivo `.sql` en tu gestor de base de datos preferido (PostgreSQL)
-2. Ejecuta las consultas en el orden en que aparecen en el archivo
+🔎 Estructura de las queries
+Visualización de tablas — exploración inicial de campanas, productos, productos_categorias y ventas_2017
+Columnas calculadas — cálculo de ingreso_total y costo_total por producto vendido, uniendo ventas_2017 con productos, productos_categorias y territorios
+Cálculo de ROI — agregación de ingresos, costos y costo de campañas por país/territorio, con cálculo de beneficio bruto, margen (%) y ROI (%)
+Validación de integridad — verificación de valores nulos en numero_pedido, clave_producto y clave_territorio, cantidades no válidas (≤ 0) en ventas_2017, y precios negativos en productos
 
-## 📘 Cómo reproducir el análisis
+🔑 Resultados clave
+Se construyó una vista consolidada por pedido que combina ventas, productos, categorías y territorios, habilitando el cálculo de ingreso_total y costo_total a nivel de línea de pedido.
+El cálculo de ROI y margen por país permite identificar qué territorios generan mayor retorno respecto a su inversión en campañas de marketing.
+Las validaciones de integridad no arrojaron valores nulos en las claves principales de ventas_2017; se identificaron registros con cantidades y/o precios inválidos que deben tratarse antes de un análisis más profundo.
 
-1. Abre `queries/S9_Sales_Marketing_ROI.sql`
-2. Ejecuta las consultas en orden, ya que las secciones posteriores dependen de las vistas/tablas generadas en secciones previas (`pais_ingreso_costo`, `pais_campanas`)
-3. Las queries se conectan a la base de datos del proyecto (según corresponda)
+⚠️ Limitaciones
+El cálculo de ROI depende de la disponibilidad de datos en pais_campanas; los países sin campañas registradas se reportan con costo_campana en 0 mediante COALESCE.
+Las validaciones de integridad identifican valores nulos e inválidos, pero no corrigen automáticamente los registros afectados.
 
-## 🧠 Objetivo del análisis
-
-- Visualizar y explorar las tablas base (`campanas`, `productos`, `productos_categorias`, `ventas_2017`)
-- Crear columnas calculadas de `ingreso_total` y `costo_total` a partir del precio, costo y cantidad pedida por producto
-- Unir las tablas de ventas, productos, categorías y territorios para construir una vista consolidada por pedido
-- Calcular el beneficio bruto, el margen porcentual y el ROI de campañas de marketing agrupado por país y territorio
-- Validar la integridad básica de los datos (valores nulos en claves) y detectar valores no válidos (cantidades y precios negativos o iguales a cero)
-
-## 🔎 Estructura de las queries
-
-1. **Visualización de tablas** — exploración inicial de `campanas`, `productos`, `productos_categorias` y `ventas_2017`
-2. **Columnas calculadas** — cálculo de `ingreso_total` y `costo_total` por producto vendido, uniendo `ventas_2017` con `productos`, `productos_categorias` y `territorios`
-3. **Cálculo de ROI** — agregación de ingresos, costos y costo de campañas por país/territorio, con cálculo de beneficio bruto, margen (%) y ROI (%)
-4. **Validación de integridad** — verificación de valores nulos en `numero_pedido`, `clave_producto` y `clave_territorio`, cantidades no válidas (≤ 0) en `ventas_2017`, y precios negativos en `productos`
-
-## ⚠️ Limitaciones
-
-- El cálculo de ROI depende de la disponibilidad de datos en `pais_campanas`; los países sin campañas registradas se reportan con `costo_campana` en 0 mediante `coalesce`.
-- Las validaciones de integridad identifican valores nulos e inválidos, pero no corrigen automáticamente los registros afectados.
-
-## 🚀 Próximos pasos
-
-- Definir y aplicar un tratamiento para los registros con valores inválidos identificados (cantidades ≤ 0, precios negativos)
-- Profundizar el análisis de ROI por categoría de producto además de por país/territorio
+🚀 Próximos pasos
+Definir y aplicar un tratamiento para los registros con valores inválidos identificados (cantidades ≤ 0, precios negativos)
+Profundizar el análisis de ROI por categoría de producto además de por país/territorio
