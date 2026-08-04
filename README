@@ -38,9 +38,11 @@ Cálculo de ROI — agregación de ingresos, costos y costo de campañas por pa�
 Validación de integridad — verificación de valores nulos en numero_pedido, clave_producto y clave_territorio, cantidades no válidas (≤ 0) en ventas_2017, y precios negativos en productos
 
 🔑 Resultados clave
-Se construyó una vista consolidada por pedido que combina ventas, productos, categorías y territorios, habilitando el cálculo de ingreso_total y costo_total a nivel de línea de pedido.
-El cálculo de ROI y margen por país permite identificar qué territorios generan mayor retorno respecto a su inversión en campañas de marketing.
-Las validaciones de integridad no arrojaron valores nulos en las claves principales de ventas_2017; se identificaron registros con cantidades y/o precios inválidos que deben tratarse antes de un análisis más profundo.
+- Se construyó una vista consolidada por pedido que combina ventas, productos, categorías y territorios, habilitando el cálculo de ingreso_total y costo_total a nivel de línea de pedido.
+- El cálculo de ROI y margen por país permite identificar qué territorios generan mayor retorno respecto a su inversión en campañas de marketing.
+- Las validaciones de integridad no arrojaron valores nulos en las claves principales de ventas_2017; se identificaron registros con cantidades y/o precios inválidos que deben tratarse antes de un análisis más profundo.
+
+
 
 ⚠️ Limitaciones
 El cálculo de ROI depende de la disponibilidad de datos en pais_campanas; los países sin campañas registradas se reportan con costo_campana en 0 mediante COALESCE.
