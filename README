@@ -42,7 +42,10 @@ Validación de integridad — verificación de valores nulos en numero_pedido, c
 - El cálculo de ROI y margen por país permite identificar qué territorios generan mayor retorno respecto a su inversión en campañas de marketing.
 - Las validaciones de integridad no arrojaron valores nulos en las claves principales de ventas_2017; se identificaron registros con cantidades y/o precios inválidos que deben tratarse antes de un análisis más profundo.
 
-
+![Cuadro resumen](images/Cuadro_resumen.png)
+1) Estados Unidos es el país con mayores ingresos sin la necesidad de ser la región en la cual se invierte más en publicidad.
+2) Si bien Canadá es la región que aporta menos ingresos, este mismo territorio se coloca con el mejor margen bruto.
+3) Estados Unidos resalta de nuevo por conseguir el mayor retorno sobre la inversión en marketing.
 
 ⚠️ Limitaciones
 El cálculo de ROI depende de la disponibilidad de datos en pais_campanas; los países sin campañas registradas se reportan con costo_campana en 0 mediante COALESCE.
