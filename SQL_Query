@@ -1,0 +1,78 @@
+--Visualización de tablas
+SELECT *   
+from campanas;
+
+SELECT *   
+from campanas;
+
+SELECT *   
+from productos;
+
+SELECT *   
+from productos_categorias;
+
+SELECT *   
+from ventas_2017;
+
+/*
+Crear dos nuevas columnas calculadas:
+ingreso_total → precio de cada producto × cantidad pedida.
+costo_total → costo de cada producto × cantidad pedida.
+*/
+
+select 
+    v.numero_pedido,
+    v.clave_producto,
+    p.nombre_producto, 
+    pc.clave_categoria, 
+    coalesce(p.precio_producto,0) as precio_unitario, 
+    coalesce(v.cantidad_pedido,0) as cantidad,
+    coalesce(p.costo_producto,0) as costo_unitario,
+    coalesce(p.precio_producto,0)*coalesce(v.cantidad_pedido,0) as ingreso_total,
+    coalesce(p.costo_producto,0)*coalesce(v.cantidad_pedido,0) as costo_total,
+    t.pais, 
+    t.continente, 
+    v.clave_territorio
+from ventas_2017 as v
+
+--Unión de tablas
+
+left join productos as p
+    on v.clave_producto = p.clave_producto
+left join productos_categorias as pc 
+    on p.clave_subcategoria = pc.clave_subcategoria
+left join territorios as t 
+    on v.clave_territorio = t.clave_territorio;
+
+--Cálculo de ROI
+select 
+    pic.pais,
+    pic.clave_territorio,  
+    sum(pic.ingresos::integer) as ingresos, --Agregar ingresos
+    sum(pic.costos::integer) as costos, --Agregar la inversión y costos en campañas de marketing
+    coalesce(sum(pc.costo_campana::integer),0) as costo_campana,
+    sum(pic.ingresos::integer)-sum(pic.costos::integer) as beneficio_bruto, --Cálculo del beneficio bruto
+    ((sum(pic.ingresos)-sum(pic.costos))*100)/nullif(sum(pic.ingresos),0) as margen_pct,
+    ((sum(pic.ingresos)-sum(pic.costos))*100)/nullif(coalesce(sum(pc.costo_campana),0),0) as roi_pct
+from pais_ingreso_costo as pic 
+left join pais_campanas as pc 
+    on pic.clave_territorio = pc.clave_territorio
+group by pic.pais, pic.clave_territorio
+order by pic.clave_territorio, ingresos, costos;
+
+
+--Validar integridad básica — NULOS en claves
+select 
+    sum(case when numero_pedido is null then 1 else 0 end), 
+    sum(case when clave_producto is null then 1 else 0 end), 
+    sum(case when clave_territorio is null then 1 else 0 end)
+from ventas_2017;
+
+--Validar valores no válidos en ventas_2017 (cantidad)
+select sum(case when cantidad_pedido <= 0 then 1 else 0 end)
+from ventas_2017;
+
+--Validar precios en productos
+select 
+    sum(case when precio_producto < 0 then 1 else 0 end)
+from productos;
