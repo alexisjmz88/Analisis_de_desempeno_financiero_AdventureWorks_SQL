@@ -26,7 +26,7 @@ sales-marketing-roi-analysis/
 ├── data/
 │   └── raw/                  # CSVs originales (ventas, productos, territorios, campañas)
 ├── queries/
-│   └── S9_Sales_Marketing_ROI.sql
+│   └── SQL_Query
 ```
 
 ## 📊 Diccionario de datos
