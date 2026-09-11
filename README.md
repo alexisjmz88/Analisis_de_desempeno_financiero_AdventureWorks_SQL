@@ -44,8 +44,8 @@ sales-marketing-roi-analysis/
 ## ▶ Cómo ejecutar el análisis
 
 1. Crea una base de datos PostgreSQL y carga los CSV de `data/raw/` en las tablas correspondientes.
-2. Abre `SQL_Query` en tu cliente SQL preferido.
-3. Ejecuta las consultas en el orden en que aparecen, ya que las secciones posteriores dependen de las tablas/vistas generadas en secciones previas (`pais_ingreso_costo`, `pais_campanas`).
+2. Abre `SQL_Query` y copia las consultas contenidas en el archivo.
+4. Ejecuta las consultas en el orden en que aparecen, ya que las secciones posteriores dependen de las tablas/vistas generadas en secciones previas (`pais_ingreso_costo`, `pais_campanas`).
 
 ## 🔎 Estructura de las queries
 
