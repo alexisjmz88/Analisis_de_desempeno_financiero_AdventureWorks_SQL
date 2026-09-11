@@ -7,7 +7,7 @@ Análisis de desempeño de ventas y retorno de inversión (ROI) de campañas de 
 
 ## 📋 Descripción
 
-Este repositorio contiene el análisis realizado durante el **Sprint 9**, enfocado en el desempeño de ventas y el retorno de inversión (ROI) de las campañas de marketing por país.
+Este repositorio contiene el análisis de desempeño de ventas y el retorno de inversión (ROI) de las campañas de marketing por país de una empresa retail de productos outdoor.
 
 El objetivo fue tomar los datos de ventas, productos y campañas de marketing para calcular el **beneficio bruto** y el **ROI** por territorio, además de validar la integridad y calidad de los datos utilizados.
 
